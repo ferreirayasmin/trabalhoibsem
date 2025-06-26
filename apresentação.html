@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DayFuze – Conectando Agendas, Criando Momentos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-color: #1f2937;
+            --light-bg: #f3f4f6;
+            --white: #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: 2rem 1rem;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-header {
+            padding: 0 1rem 2rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-header h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin: 0.25rem 0;
+        }
+
+        .nav-links a:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .nav-links a.active {
+            background: var(--primary-color);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            color: var(--gray-900);
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        /* Sections */
+        .section {
+            background: var(--white);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            min-height: calc(100vh - 4rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .section-title {
+            color: var(--gray-900);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: none;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            color: var(--gray-700);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .section-content ul li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .section-content ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--gray-100), var(--white));
+            border-left: none;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        }
+
+        .highlight-box p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--gray-800);
+        }
+
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .source-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .source-link:hover {
+            background: rgba(37, 99, 235, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-intro" style="text-align:center; margin-bottom: 2rem;">
+        <h1 style="margin-bottom: 0.2em; font-size: 2.5rem; letter-spacing: -1px;">DayFuze</h1>
+        <h2 style="margin-top: 0; font-size: 1.3rem; color: #666; font-weight: 400;">Calendário de Disponibilidade Social</h2>
+        <p style="font-size: 1.1rem; color: #444; max-width: 600px; margin: 0 auto 0.5em auto;">Conectando pessoas através do tempo livre</p>
+        <p style="font-size: 1rem; color: #555; max-width: 700px; margin: 0 auto;">O DayFuze é uma solução digital que facilita o encontro entre amigos, grupos e colegas, identificando automaticamente horários livres em comum para promover mais lazer, socialização e bem-estar. Simples, rápido e pensado para a vida moderna.</p>
+    </div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2>DayFuze</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#intro" id="dayfuze-link" class="active">DayFuze</a></li>
+            <li><a href="#abertura">1. Abertura</a></li>
+            <li><a href="#importancia">2. Importância do Lazer</a></li>
+            <li><a href="#problema">3. O Problema</a></li>
+            <li><a href="#solucao">4. Nossa Solução</a></li>
+            <li><a href="#diferencial">6. Nosso Diferencial</a></li>
+            <li><a href="#mercado">7. Mercado</a></li>
+            <li><a href="#publico">8. Público-Alvo</a></li>
+            <li><a href="#monetizacao">9. Monetização</a></li>
+            <li><a href="#tecnologia">10. Tecnologia</a></li>
+            <li><a href="#equipe">11. Equipe</a></li>
+            <li><a href="#proximos">12. Próximos Passos</a></li>
+            <li><a href="#conclusao">13. Conclusão</a></li>
+        </ul>
+    </nav>
+
+    <!-- Project Intro Card (hidden by default) -->
+    <div id="intro" class="section" style="display:none; align-items:center; justify-content:center; min-height:80vh;">
+        <div class="section-content" style="max-width:600px; margin:auto; text-align:center;">
+            <h1 style="margin-bottom: 0.2em; font-size: 2.5rem; letter-spacing: -1px;">DayFuze</h1>
+            <h2 style="margin-top: 0; font-size: 1.3rem; color: #666; font-weight: 400;">Calendário de Disponibilidade Social</h2>
+            <p style="font-size: 1.1rem; color: #444; margin: 0 auto 0.5em auto;">Conectando pessoas através do tempo livre</p>
+            <p style="font-size: 1rem; color: #555; margin: 0 auto;">O DayFuze é uma solução digital que facilita o encontro entre amigos, grupos e colegas, identificando automaticamente horários livres em comum para promover mais lazer, socialização e bem-estar. Simples, rápido e pensado para a vida moderna.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <h1>DayFuze – Conectando Agendas, Criando Momentos</h1>
+        </header>
+
+        <!-- Abertura -->
+        <section id="abertura" class="section">
+            <h2 class="section-title">1. Abertura – Conexão Humana</h2>
+            <div class="section-content">
+                <p>Em um mundo cada vez mais acelerado, encontrar tempo para estar com as pessoas que amamos tornou-se um verdadeiro desafio.</p>
+                <div class="highlight-box">
+                    <p>"Ah... não vai dar pra mim..."</p>
+                    <p>"Vamos deixar pra outro dia..."</p>
+                </div>
+                <p>Frases como essas se tornaram comuns em nossas conversas, refletindo a dificuldade crescente de conciliar agendas e manter conexões sociais significativas.</p>
+            </div>
+        </section>
+
+        <!-- Importância do Lazer -->
+        <section id="importancia" class="section">
+            <h2 class="section-title">2. Importância do Lazer na Saúde Mental e Produtividade</h2>
+            <div class="section-content">
+                <p>O lazer tem impacto direto na saúde mental, criatividade e desempenho profissional.</p>
+                <div class="highlight-box">
+                    <p>Fontes:</p>
+                    <ul>
+                        <li><a href="https://hbr.org/2021/02/the-case-for-taking-more-breaks" class="source-link" target="_blank">Harvard Business Review – The Case for Taking More Breaks</a></li>
+                        <li><a href="https://www.apa.org/topics/mental-health/downtime" class="source-link" target="_blank">American Psychological Association – Why your brain needs downtime</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- O Problema -->
+        <section id="problema" class="section">
+            <div class="section-content">
+                <h2 class="section-title">3. O Problema que Estamos Resolvendo</h2>
+                <div class="highlight-box">
+                    <p>Muitos jovens e adultos têm dificuldade em alinhar agendas para momentos de lazer e socialização, o que impacta negativamente a saúde mental, produtividade e qualidade de vida.</p>
+                </div>
+                <div class="highlight-box">
+                    <h3>Dados e Estatísticas</h3>
+                    <ul>
+                        <li><strong>89% dos jovens relatam dificuldade em alinhar agendas</strong> para atividades sociais, o que contribui para o aumento do isolamento e estresse. <a href="https://www.bbc.com/portuguese/geral-60134813" target="_blank">Fonte: BBC Brasil</a></li>
+                        <li><strong>76% dos usuários de apps de produtividade</strong> afirmam que gostariam de integrar lazer e compromissos sociais em suas rotinas digitais. <a href="https://www.statista.com/statistics/730315/productivity-app-usage-worldwide/" target="_blank">Fonte: Statista</a></li>
+                        <li><strong>O mercado de apps de produtividade cresce 15% ao ano</strong>, impulsionado pela busca por equilíbrio entre vida pessoal e profissional. <a href="https://www.forbes.com/sites/forbestechcouncil/2022/01/18/the-rise-of-productivity-apps-in-the-remote-work-era/" target="_blank">Fonte: Forbes</a></li>
+                        <li><strong>70% dos jovens adultos relatam dificuldade em conciliar vida social e trabalho</strong>, o que pode levar a quadros de ansiedade e queda de rendimento. <a href="https://www.forbes.com/sites/forbesbusinesscouncil/2021/08/17/how-to-maintain-social-connections-in-a-hybrid-work-world/" target="_blank">Fonte: Forbes</a></li>
+                    </ul>
+                    <p>Esses dados mostram que a dificuldade de alinhar agendas não é apenas um incômodo, mas um problema real que afeta o bem-estar, a saúde mental e a produtividade de milhões de pessoas, especialmente entre os jovens.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- A Solução -->
+        <section id="solucao" class="section">
+            <h2 class="section-title">4. Nossa Solução – DayFuze</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Plataforma que cruza apenas horários livres</li>
+                    <li>Grupos personalizados</li>
+                    <li>Visualização simples de datas ideais</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Público-Alvo -->
+        <section id="publico" class="section">
+            <h2 class="section-title">8. Público-Alvo</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Jovens universitários</li>
+                    <li>Profissionais com agendas lotadas</li>
+                    <li>Equipes remotas</li>
+                    <li>Famílias grandes</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Benchmarking -->
+        <section id="benchmarking" class="section">
+            <h2 class="section-title">6. Benchmarking e Nosso Diferencial</h2>
+            <div class="section-content">
+                <div class="highlight-box">
+                    <p>Google Calendar → Focado em compromissos, não lazer</p>
+                    <p>When2Meet → Interface ultrapassada</p>
+                    <p>Nosso diferencial → Interface jovem, cruzamento de horários livres, foco social</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diferencial -->
+        <section id="diferencial" class="section">
+            <h2 class="section-title">7. Diferencial de Mercado</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Design humanizado</li>
+                    <li>Linguagem simples e jovem</li>
+                    <li>Mobile-first</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tecnologias -->
+        <section id="tecnologia" class="section">
+            <h2 class="section-title">10. Tecnologia</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Frontend: HTML, CSS, JavaScript</li>
+                    <li>Futuro: React ou Next.js + Node.js</li>
+                    <li>Banco: PostgreSQL</li>
+                    <li>Futuras integrações: Google Calendar API, Outlook API</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Plano de Execução -->
+        <section id="equipe" class="section">
+            <h2 class="section-title">11. Equipe</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Protótipo estático</li>
+                    <li>Testes com amigos</li>
+                    <li>Implementação backend futura</li>
+                    <li>Lançamento beta</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Monetização -->
+        <section id="monetizacao" class="section">
+            <h2 class="section-title">9. Monetização</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Plano freemium</li>
+                    <li>Parcerias com coworkings e espaços de lazer</li>
+                    <li>Anúncios discretos</li>
+                    <li>Insights de comportamento (respeitando LGPD)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Crescimento -->
+        <section id="crescimento" class="section">
+            <h2 class="section-title">11. Potencial de Crescimento</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Integração com Zoom, Teams</li>
+                    <li>Aplicativo mobile nativo</li>
+                    <li>Expansão para empresas remotas</li>
+                    <li>Marketing de influência</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Marketing -->
+        <section id="marketing" class="section">
+            <h2 class="section-title">12. Plano de Marketing de Lançamento</h2>
+            <div class="section-content">
+                <ul>
+                    <li>Beta para amigos, família e colegas de faculdade</li>
+                    <li>Slogan: "Tempo livre é vida"</li>
+                    <li>Parcerias com centros acadêmicos e coworkings</li>
+                    <li>Ações com influenciadores locais</li>
+                    <li>Campanhas sobre saúde mental</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Reflexão Final -->
+        <section id="conclusao" class="section">
+            <h2 class="section-title">13. Conclusão</h2>
+            <div class="section-content">
+                <div class="highlight-box">
+                    <p>"Mais do que um calendário, uma ferramenta para ajudar as pessoas a se reconectarem de forma simples e leve."</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Chart.js Configuration
+        const ctx = document.getElementById('productivityChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Sem pausas sociais', 'Com pausas sociais'],
+                datasets: [{
+                    label: 'Produtividade (%)',
+                    data: [100, 131],
+                    backgroundColor: [
+                        'rgba(37, 99, 235, 0.2)',
+                        'rgba(37, 99, 235, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(37, 99, 235, 1)',
+                        'rgba(37, 99, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 150
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Impacto das Pausas Sociais na Produtividade'
+                    }
+                }
+            }
+        });
+
+        // Smooth scroll and section centering
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                const header = document.querySelector('.header');
+                const headerHeight = header ? header.offsetHeight : 0;
+                const windowHeight = window.innerHeight;
+                const sectionRect = targetSection.getBoundingClientRect();
+                const sectionHeight = sectionRect.height;
+                // Calcula a posição absoluta da seção em relação ao topo do documento
+                const sectionTopAbs = window.scrollY + sectionRect.top;
+                // Calcula o scroll para centralizar a seção na viewport, considerando o header
+                let scrollTo = sectionTopAbs - ((windowHeight - sectionHeight) / 2);
+                // Se o header for fixo, desconta sua altura
+                if (header && getComputedStyle(header).position === 'fixed') {
+                    scrollTo -= headerHeight / 2;
+                }
+                window.scrollTo({
+                    top: scrollTo,
+                    behavior: 'smooth'
+                });
+                // Atualiza o estado ativo do menu
+                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Update active state on scroll
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const headerHeight = document.querySelector('.header').offsetHeight;
+            const windowHeight = window.innerHeight;
+            const scrollPosition = window.scrollY + (windowHeight / 2);
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionBottom = sectionTop + sectionHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Show intro card and hide other sections when DayFuze is clicked
+        const introSection = document.getElementById('intro');
+        const allSections = document.querySelectorAll('.main-content .section');
+
+        document.getElementById('dayfuze-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            introSection.style.display = 'flex';
+            allSections.forEach(sec => sec.style.display = 'none');
+            navLinks.forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+        });
+        // For other menu items, hide intro and show sections as normal
+        navLinks.forEach(link => {
+            if(link.id !== 'dayfuze-link') {
+                link.addEventListener('click', function() {
+                    introSection.style.display = 'none';
+                    allSections.forEach(sec => sec.style.display = '');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
