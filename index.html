@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DayFuze - Conectando Agendas, Criando Momentos</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Library for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">DayFuze</div>
+        <div class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#contexto">Contexto</a></li>
+            <li><a href="#problema">O Problema</a></li>
+            <li><a href="#solucao">Solução</a></li>
+            <li><a href="#publico">Público-Alvo</a></li>
+            <li><a href="#diferencial">Diferencial</a></li>
+            <li><a href="#desenvolvimento">Desenvolvimento</a></li>
+            <li><a href="#planejamento">Planejamento</a></li>
+            <li><a href="#crescimento">Crescimento</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>DayFuze</h1>
+            <h2>Conectando Agendas, Criando Momentos</h2>
+            <p class="hero-subtitle">Dê um tempo para o que realmente importa: as pessoas ao seu redor</p>
+        </div>
+        <div class="hero-scroll">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Contexto Section -->
+    <section id="contexto" class="section">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title">Contexto Social</h2>
+            <div class="contexto-grid">
+                <div class="contexto-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Saúde Mental</h3>
+                    <p>Estudos em neurociência e psicologia comprovam que o lazer tem impacto direto na produtividade, criatividade e saúde mental.</p>
+                </div>
+                <div class="contexto-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Produtividade</h3>
+                    <p>Funcionários que administram bem seu tempo livre são mais felizes, motivados e cometem menos erros.</p>
+                </div>
+                <div class="contexto-card">
+                    <i class="fas fa-building"></i>
+                    <h3>Empresas Inovadoras</h3>
+                    <p>Grandes empresas como Google e Facebook já investem em soluções para melhorar o equilíbrio entre vida pessoal e trabalho.</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-item">
+                    <span class="stat-number">31%</span>
+                    <p>Aumento na produtividade com pausas sociais</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problema Section -->
+    <section id="problema" class="section dark">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title">O Problema</h2>
+            <div class="problema-grid">
+                <div class="problema-item">
+                    <i class="fas fa-calendar-times"></i>
+                    <p>Dificuldade de conciliar agendas para encontros presenciais ou online</p>
+                </div>
+                <div class="problema-item">
+                    <i class="fas fa-clock"></i>
+                    <p>Falta de tempo para planejar momentos de lazer</p>
+                </div>
+                <div class="problema-item">
+                    <i class="fas fa-balance-scale"></i>
+                    <p>Excesso de foco nas obrigações e pouco foco na vida social</p>
+                </div>
+                <div class="problema-item">
+                    <i class="fas fa-comments"></i>
+                    <p>Trocas intermináveis de mensagens só para tentar achar um horário comum</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-item">
+                    <span class="stat-number">70%</span>
+                    <p>dos jovens adultos relatam dificuldade em conciliar vida social e rotina profissional</p>
+                    <small>Fonte: Forbes</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solução Section -->
+    <section id="solucao" class="section">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title">Nossa Solução</h2>
+            <div class="solucao-content">
+                <div class="solucao-text">
+                    <h3>O que é o DayFuze?</h3>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Ferramenta social de cruzamento de horários livres</li>
+                        <li><i class="fas fa-check"></i> Registro apenas das janelas de tempo livre</li>
+                        <li><i class="fas fa-check"></i> Cruzamento automático de horários em grupos</li>
+                        <li><i class="fas fa-check"></i> Exibição instantânea de datas e horários ideais</li>
+                    </ul>
+                </div>
+                <div class="solucao-features">
+                    <div class="feature-card">
+                        <i class="fas fa-user-circle"></i>
+                        <h4>Perfil do Usuário</h4>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h4>Agenda de Disponibilidade</h4>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Grupos Personalizados</h4>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bell"></i>
+                        <h4>Notificações</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Público-Alvo Section -->
+    <section id="publico" class="section dark">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title">Público-Alvo</h2>
+            <div class="publico-grid">
+                <div class="publico-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Jovens Universitários</h3>
+                </div>
+                <div class="publico-card">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>Profissionais</h3>
+                </div>
+                <div class="publico-card">
+                    <i class="fas fa-laptop-house"></i>
+                    <h3>Trabalho Remoto</h3>
+                </div>
+                <div class="publico-card">
+                    <i class="fas fa-home"></i>
+                    <h3>Famílias</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diferencial Section -->
+    <section id="diferencial" class="section">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title">Nosso Diferencial</h2>
+            <div class="diferencial-grid">
+                <div class="diferencial-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Abordagem Humanizada</h3>
+                    <p>Pensada para o social e conexões reais</p>
+                </div>
+                <div class="diferencial-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Interface Intuitiva</h3>
+                    <p>Linguagem próxima do público jovem</p>
+                </div>
+                <div class="diferencial-card">
+                    <i class="fas fa-star"></i>
+                    <h3>Recursos Reais</h3>
+                    <p>Focados em lazer, amizade e convivência</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Desenvolvimento Section -->
+    <section id="desenvolvimento" class="section dark">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title">Desenvolvimento</h2>
+            <div class="dev-details-grid">
+                <div class="dev-detail-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Desenvolvimento</h3>
+                    <ul class="dev-list">
+                        <li>Etapas Ágeis</li>
+                        <li>Prototipação</li>
+                        <li>Validação</li>
+                    </ul>
+                </div>
+                <div class="dev-detail-card">
+                    <i class="fab fa-html5"></i>
+                    <h3>Frontend</h3>
+                    <ul class="dev-list">
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>JavaScript</li>
+                        <li>React (futuro)</li>
+                    </ul>
+                </div>
+                <div class="dev-detail-card">
+                    <i class="fab fa-node-js"></i>
+                    <h3>Backend</h3>
+                    <ul class="dev-list">
+                        <li>Node.js</li>
+                        <li>Express</li>
+                        <li>NestJS (futuro)</li>
+                    </ul>
+                </div>
+                <div class="dev-detail-card">
+                    <i class="fas fa-database"></i>
+                    <h3>Banco de Dados</h3>
+                    <ul class="dev-list">
+                        <li>PostgreSQL</li>
+                    </ul>
+                </div>
+                <div class="dev-detail-card">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Hospedagem</h3>
+                    <ul class="dev-list">
+                        <li>Netlify</li>
+                        <li>Vercel</li>
+                    </ul>
+                </div>
+                <div class="dev-detail-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Autenticação</h3>
+                    <ul class="dev-list">
+                        <li>JWT</li>
+                        <li>OAuth</li>
+                    </ul>
+                </div>
+                <div class="dev-detail-card">
+                    <i class="fas fa-plug"></i>
+                    <h3>Integrações Futuras</h3>
+                    <ul class="dev-list">
+                        <li>Google Calendar</li>
+                        <li>Outlook</li>
+                        <li>Zoom/Teams</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planejamento de Execução -->
+    <section id="planejamento" class="section">
+        <div class="container planejamento-timeline-center" data-aos="fade-up">
+            <h2 class="section-title">Planejamento de Execução</h2>
+            <ul class="timeline-list timeline-list-center">
+                <li><span class="fase">Fase 1</span> Protótipo Estático (HTML + CSS)</li>
+                <li><span class="fase">Fase 2</span> Validação com feedback de usuários</li>
+                <li><span class="fase">Fase 3</span> Frontend dinâmico (React/Next.js)</li>
+                <li><span class="fase">Fase 4</span> Backend e Banco de Dados</li>
+                <li><span class="fase">Fase 5</span> Deploy Beta e Testes Reais</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Crescimento Section -->
+    <section id="crescimento" class="section dark">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title">Potencial de Crescimento</h2>
+            <div class="crescimento-grid">
+                <div class="crescimento-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Integração com Apps</h3>
+                    <p>Zoom, Teams e outras plataformas</p>
+                </div>
+                <div class="crescimento-card">
+                    <i class="fas fa-building"></i>
+                    <h3>Expansão Empresarial</h3>
+                    <p>Suporte para equipes remotas</p>
+                </div>
+                <div class="crescimento-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Parcerias</h3>
+                    <p>Instituições de ensino e coworkings</p>
+                </div>
+                <div class="crescimento-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>App Mobile</h3>
+                    <p>Experiência nativa para usuários</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Validação QR Code -->
+    <section id="validacao" class="section">
+        <div class="container validacao-flex" data-aos="fade-up">
+            <div class="validacao-texto">
+                <div class="title-section">📲 Validação do Projeto DayFuze</div>
+                <p class="validacao-desc">Queremos sua opinião!<br>Escaneie o QR code ao lado e responda nosso questionário para ajudar a melhorar o projeto.</p>
+            </div>
+            <div class="validacao-card">
+                <img src="qr-code.png" alt="QR Code para o questionário" class="qr-code-img grande">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">DayFuze</div>
+                <p>Conectando Agendas, Criando Momentos</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
